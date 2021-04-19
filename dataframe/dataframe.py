@@ -71,7 +71,16 @@ class DataFrame:
         with open(filepath, "r") as file:
             for index, line in enumerate(file.read().split('\n')):
                 if index == 0:
-                    array.append(line.split(','))
+                    split_line = line.split(',')
+                    fixed_split_line = []
+                    for entry in split_line:
+                        fixed_entry = ''
+                        for element in list(entry):
+                            if element not in ["'", '"']:
+                                fixed_entry += element
+
+                        fixed_split_line.append(fixed_entry)
+                    array.append(fixed_split_line)
                 else:
                     parsed_line = parser(line)
                     if len(parsed_line) == len(data_types.values()):
@@ -80,7 +89,12 @@ class DataFrame:
                             if entry == '':
                                 entries.append(None)
                             else:
-                                entries.append(type_(entry))
+                                fixed_entry = ''
+                                for element in list(entry):
+                                    if element not in ["'", '"']:
+                                        fixed_entry += element
+                                entries.append(type_(fixed_entry))
+                                    
                         array.append(entries)
                     else:
                         print('Please give a new dictionary of datatypes or a new parser, there is an difference in length between the dictionary of datatypes and the parsed line')
@@ -251,7 +265,6 @@ class DataFrame:
         rows = []
         for i in range(len(self.to_array())):
             x = {column: value[i] for column, value in self.data_dict.items()}
-            print("row")
             if lambda_function(x):
                 rows.append(i)
         if rows != []:

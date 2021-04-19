@@ -48,6 +48,3 @@ predictions = coeffs.predict(testing_dataframe)
 fixed_predictions = [1 if output > 0.5 else 0 for output in predictions]
 result = [prediction == actual for prediction, actual in zip(predictions, testing_dataframe['Survived'])].count(True) / len(fixed_predictions)
 print("accuracy", result)
-
- 
-
