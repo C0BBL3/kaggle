@@ -56,27 +56,13 @@ testing_math_scores = testing_dataframe['math score']
 features_to_use = [col for col in testing_dataframe.columns if col not in ['indices', 'math score']]
 testing_dataframe.filter_columns(features_to_use)
 
-def get_classifications(model, dataframe):
-    classifications = []
-    for index in range(len(dataframe)):
-        observation = {column: True if array[index] >= array[len(array)//2] else False for column, array in dataframe.data_dict.items() if column != 'indices'}
-        guess = model.predict(observation)
-        if guess >= 0.5:
-            guess = 1
-        else:
-            guess = 0
-        classifications.append((testing_dataframe[index], guess))
-    return classifications
-
-
 training_x = np.array(training_dataframe.to_array())
 testing_x = np.array(testing_dataframe.to_array())
 training_y = np.array(ratings)
+testing_y = np.array(testing_math_scores)
 coeffs = LinearRegression().fit(training_x, training_y)
 
-predictions = coeffs.predict(testing_x)
-fixed_predictions = [1 if output >= 0.5 else 0 for output in predictions]
-result = [actual - 2 < prediction < actual + 2 for prediction, actual in zip(predictions, testing_math_scores)].count(True) / len(fixed_predictions)
+result = coeffs.score(testing_x, testing_y)
 print("\n2-5-5 accuracy", result)
 
 

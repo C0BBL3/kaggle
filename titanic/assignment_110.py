@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 
 dataframe = pd.read_csv(os.getcwd() + '/titanic/dataset_of_knowns.csv')
 keep_cols = ['Survived', 'Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Cabin', 'Embarked']
@@ -34,9 +34,9 @@ training_y = np.array(ratings[:500])
 testing_x = np.array(dataframe[501:])
 testing_y = np.array( ratings[501:])
 
-coeffs = LinearRegression().fit(training_x, training_y)
-print("Constant", coeffs.intercept_)
-final_results = {column: coefficient for column, coefficient in zip(dataframe[:500].columns, coeffs.coef_)}
+coeffs = LogisticRegression().fit(training_x, training_y)
+print("Constant", coeffs.intercept_[0])
+final_results = {column: coefficient for column, coefficient in zip(dataframe[:500].columns, *coeffs.coef_)}
 for col,value in final_results.items():
     print(col,value)
 print("\n")
