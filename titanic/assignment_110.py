@@ -28,7 +28,7 @@ del dataframe['Embarked']
 
 ratings = dataframe['Survived']
 features_to_use = ['Sex', 'Pclass', 'Fare', 'Age', 'SibSp', 'SibSp>0', 'Parch>0', 'Embarked=C', 'Embarked=None', 'Embarked=Q', 'Embarked=S', 'CabinType=A', 'CabinType=B', 'CabinType=C', 'CabinType=D', 'CabinType=E', 'CabinType=F', 'CabinType=G', 'CabinType=None', 'CabinType=T']
-dataframe = dataframe[features_to_use]
+dataframe = dataframe[features_to_use[:2]]
 training_x = np.array(dataframe[:500])
 training_y = np.array(ratings[:500])
 testing_x = np.array(dataframe[501:])
@@ -41,5 +41,5 @@ for col,value in final_results.items():
     print(col,value)
 print("\n")
 
-result = coeffs.score(testing_x, testing_y)
-print("accuracy", result)
+print("training:", coeffs.score(training_x, training_y))
+print("testing:", coeffs.score(testing_x, testing_y))

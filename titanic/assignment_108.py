@@ -41,5 +41,5 @@ for col,value in final_results.items():
     print(col,value)
 print("\n")
 
-result = coeffs.score(testing_x, testing_y)
-print("accuracy", result)
+print("training:", coeffs.score(training_x, training_y))
+print("testing:", coeffs.score(testing_x, testing_y))
